@@ -1,5 +1,5 @@
 #!/bin/bash
 /opt/IBM/WebSphere/AppServer/bin/startServer.sh server1
-read -p "WebSphere Application Server is now running. Press [Enter] to shut down and exit container."
+tail -f /opt/IBM/WebSphere/AppServer/profiles/AppSrv01/logs/server1/SystemOut.log
 /opt/IBM/WebSphere/AppServer/bin/stopServer.sh server1
 exit
