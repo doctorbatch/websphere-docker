@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<agent-input>
+  <variables>
+    <variable name='sharedLocation' value='/opt/IBM/IMShared'/>
+  </variables>
+  <server>
+    <repository location='/tmp/websphere'/>
+    <repository location='/tmp/websphere-sdk'/>
+    <repository location='https://www.ibm.com/software/repositorymanager/service/com.ibm.websphere.DEVELOPERSILAN.v85/8.5.5.0'/>
+  </server>
+  <profile id='IBM WebSphere Application Server V8.5' installLocation='/opt/IBM/WebSphere/AppServer'>
+    <data key='cic.selector.arch' value='x86'/>
+  </profile>
+  <install>
+    <!-- 8.5.5.7-WS-WAS-IFPI45266 -->
+    <offering profile='IBM WebSphere Application Server V8.5' id='8.5.5.7-WS-WAS-IFPI45266'/>
+    <!-- IBM WebSphere Application Server for Developers (ILAN) 8.5.5.7 -->
+    <offering profile='IBM WebSphere Application Server V8.5' id='com.ibm.websphere.DEVELOPERSILAN.v85' version='8.5.5007.20150820_2101' features='core.feature,ejbdeploy,thinclient,embeddablecontainer,com.ibm.sdk.6_64bit'/>
+    <!-- IBM WebSphere SDK Java Technology Edition (Optional) 7.0.4.1 -->
+    <offering profile='IBM WebSphere Application Server V8.5' id='com.ibm.websphere.IBMJAVA.v70' version='7.0.4001.20130510_2103' features='com.ibm.sdk.7'/>
+  </install>
+  <preference name='com.ibm.cic.common.core.preferences.eclipseCache' value='${sharedLocation}'/>
+</agent-input>
