@@ -4,7 +4,8 @@
 ###
 
 MACHINE=default
-if [-z ""$2"]
+if [ ! -z $2 ]; then
+  echo "Using machine $2"
   MACHINE=$2
 fi
 

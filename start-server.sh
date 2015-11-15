@@ -11,5 +11,11 @@ function stopserver() {
   exit
 }
 
-$WAS_HOME/bin/startServer.sh $SERVER -profileName $PROFILE
-tail -f $WAS_HOME/profiles/$PROFILE/logs/$SERVER/SystemOut.log
+rm $WAS_HOME/profiles/$PROFILE/logs/$SERVER/startServer.log
+$WAS_HOME/bin/startServer.sh $SERVER -profileName $PROFILE 2>&1
+PID_LINE=`grep 'ADMU3000I' $WAS_HOME/profiles/$PROFILE/logs/$SERVER/startServer.log`
+PID=`echo $PID_LINE | sed 's/..*process id is \([0-9][0-9]*\)$/\1/g'`
+
+echo Waiting on WebSphere Server Process $PID
+while `kill -s 0 $PID`; do sleep 5; done
+echo "WebSphere Application Server process $PID has terminated. Goodbye."
