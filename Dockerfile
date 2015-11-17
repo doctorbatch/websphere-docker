@@ -1,3 +1,17 @@
+# Copyright 2015 ZBL Services, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 FROM ubuntu:14.04
 
 # Add files from the context
@@ -37,9 +51,14 @@ RUN /opt/IBM/InstallationManager/eclipse/tools/imcl -acceptLicense input /var/IB
 # Cleanup
 RUN rm -rf /tmp/ibmim /tmp/websphere /tmp/websphere-sdk
 
-# Create the websphere profile
+# Create and configure the websphere profile
 WORKDIR /opt/IBM/WebSphere/AppServer
-RUN bin/manageprofiles.sh -create -templatePath /opt/IBM/WebSphere/AppServer/profileTemplates/default -profileName AppSrv01
+RUN bin/manageprofiles.sh -create -templatePath /opt/IBM/WebSphere/AppServer/profileTemplates/default -profileName AppSrv01 -cellName zblCell1 -nodeName zblCell1Node01
+
+ADD configure.py /tmp
+RUN bin/startServer.sh server1 && \
+    bin/wsadmin.sh -f /tmp/configure.py && \
+    bin/stopServer.sh server1
 
 EXPOSE 9060 9080 9043 9443 2809 8880
 ADD start-server.sh /usr/bin/
